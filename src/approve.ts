@@ -49,10 +49,6 @@ export async function approve(
       pull_number: prNumber,
     });
 
-    if(!(pull_request.data.requested_reviewers || []).find(e => e.name === reviewer)) {
-      return;
-    }
-
     const requestedReviwerTeams = (await client.rest.pulls.listRequestedReviewers({
       owner: context.repo.owner,
       repo: context.repo.repo,
@@ -60,6 +56,7 @@ export async function approve(
     }))?.data?.teams;
 
     if(!(requestedReviwerTeams || []).find(e => e.name === reviewer)) {
+      `Reviewer ${reviewer}is not in the list`
       return;
     }
 
