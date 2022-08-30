@@ -10103,6 +10103,12 @@ function approve(token, context, prNumber, reviewMessage, reviewer) {
             if (!(pull_request.data.requested_reviewers || []).find(e => e.name === reviewer)) {
                 return;
             }
+            const requestedReviwers = client.rest.pulls.listRequestedReviewers({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+            });
+            console.log(requestedReviwers);
             console.log(reviews.data);
             console.log(login, commit);
             for (const review of reviews.data) {
