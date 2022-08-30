@@ -6,11 +6,13 @@ export async function run() {
   try {
     const token = core.getInput("github-token");
     const reviewMessage = core.getInput("review-message");
+    const reviewer = core.getInput("reviewer");
     await approve(
       token,
       github.context,
       prNumber(),
-      reviewMessage || undefined
+      reviewMessage || undefined,
+      reviewer || undefined
     );
   } catch (error) {
     if (error instanceof Error) {

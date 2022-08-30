@@ -10069,7 +10069,7 @@ exports.approve = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const request_error_1 = __nccwpck_require__(537);
-function approve(token, context, prNumber, reviewMessage) {
+function approve(token, context, prNumber, reviewMessage, reviewer) {
     var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
         if (!prNumber) {
@@ -10099,6 +10099,10 @@ function approve(token, context, prNumber, reviewMessage) {
                 repo: context.repo.repo,
                 pull_number: prNumber,
             });
+            console.log(pull_request.data.requested_reviewers);
+            if (!(pull_request.data.requested_reviewers || []).find(e => e.name === reviewer)) {
+                return;
+            }
             for (const review of reviews.data) {
                 if (((_b = review.user) === null || _b === void 0 ? void 0 : _b.login) == login &&
                     review.commit_id == commit &&
@@ -10225,7 +10229,8 @@ function run() {
         try {
             const token = core.getInput("github-token");
             const reviewMessage = core.getInput("review-message");
-            yield (0, approve_1.approve)(token, github.context, prNumber(), reviewMessage || undefined);
+            const reviewer = core.getInput("reviewer");
+            yield (0, approve_1.approve)(token, github.context, prNumber(), reviewMessage || undefined, reviewer || undefined);
         }
         catch (error) {
             if (error instanceof Error) {

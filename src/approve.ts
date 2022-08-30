@@ -8,7 +8,8 @@ export async function approve(
   token: string,
   context: Context,
   prNumber?: number,
-  reviewMessage?: string
+  reviewMessage?: string,
+  reviewer?: string
 ) {
   if (!prNumber) {
     prNumber = context.payload.pull_request?.number;
@@ -47,6 +48,11 @@ export async function approve(
       repo: context.repo.repo,
       pull_number: prNumber,
     });
+
+    console.log(pull_request.data.requested_reviewers)
+    if(!(pull_request.data.requested_reviewers || []).find(e => e.name === reviewer)) {
+      return;
+    }
 
     for (const review of reviews.data) {
       if (
