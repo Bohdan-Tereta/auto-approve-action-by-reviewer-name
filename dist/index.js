@@ -10103,6 +10103,7 @@ function approve(token, context, prNumber, reviewMessage, reviewer) {
             if (!(pull_request.data.requested_reviewers || []).find(e => e.name === reviewer)) {
                 return;
             }
+            console.log(reviews.data);
             for (const review of reviews.data) {
                 if (((_b = review.user) === null || _b === void 0 ? void 0 : _b.login) == login &&
                     review.commit_id == commit &&
