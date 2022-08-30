@@ -54,6 +54,7 @@ export async function approve(
       return;
     }
 
+    console.log(reviews.data)
     for (const review of reviews.data) {
       if (
         review.user?.login == login &&
