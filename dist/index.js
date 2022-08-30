@@ -10070,7 +10070,7 @@ const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const request_error_1 = __nccwpck_require__(537);
 function approve(token, context, prNumber, reviewMessage, reviewer) {
-    var _a, _b;
+    var _a, _b, _c, _d;
     return __awaiter(this, void 0, void 0, function* () {
         if (!prNumber) {
             prNumber = (_a = context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
@@ -10103,17 +10103,16 @@ function approve(token, context, prNumber, reviewMessage, reviewer) {
             if (!(pull_request.data.requested_reviewers || []).find(e => e.name === reviewer)) {
                 return;
             }
-            const requestedReviwers = yield client.rest.pulls.listRequestedReviewers({
+            const requestedReviwers = (_c = (_b = (yield client.rest.pulls.listRequestedReviewers({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: prNumber,
-            });
+            }))) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.teams;
             console.log(requestedReviwers);
             console.log(reviews.data);
             console.log(login, commit);
             for (const review of reviews.data) {
-                if (((_b = review.user) === null || _b === void 0 ? void 0 : _b.login) == login &&
-                    review.commit_id == commit &&
+                if (((_d = review.user) === null || _d === void 0 ? void 0 : _d.login) == login &&
                     review.state == "APPROVED") {
                     core.info(`Current user already approved pull request #${prNumber}, nothing to do`);
                     return;

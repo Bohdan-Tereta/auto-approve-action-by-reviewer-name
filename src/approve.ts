@@ -54,11 +54,11 @@ export async function approve(
       return;
     }
 
-    const requestedReviwers = await client.rest.pulls.listRequestedReviewers({
+    const requestedReviwers = (await client.rest.pulls.listRequestedReviewers({
       owner: context.repo.owner,
       repo: context.repo.repo,
       pull_number: prNumber,
-    });
+    }))?.data?.teams;
 
     console.log(requestedReviwers);
 
@@ -67,7 +67,6 @@ export async function approve(
     for (const review of reviews.data) {
       if (
         review.user?.login == login &&
-        review.commit_id == commit &&
         review.state == "APPROVED"
       ) {
         core.info(
