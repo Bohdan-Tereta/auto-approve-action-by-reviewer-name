@@ -10103,7 +10103,7 @@ function approve(token, context, prNumber, reviewMessage, reviewer) {
             if (!(pull_request.data.requested_reviewers || []).find(e => e.name === reviewer)) {
                 return;
             }
-            const requestedReviwers = client.rest.pulls.listRequestedReviewers({
+            const requestedReviwers = yield client.rest.pulls.listRequestedReviewers({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: prNumber,

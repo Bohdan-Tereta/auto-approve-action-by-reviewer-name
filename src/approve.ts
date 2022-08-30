@@ -54,7 +54,7 @@ export async function approve(
       return;
     }
 
-    const requestedReviwers = client.rest.pulls.listRequestedReviewers({
+    const requestedReviwers = await client.rest.pulls.listRequestedReviewers({
       owner: context.repo.owner,
       repo: context.repo.repo,
       pull_number: prNumber,
