@@ -10099,18 +10099,17 @@ function approve(token, context, prNumber, reviewMessage, reviewer) {
                 repo: context.repo.repo,
                 pull_number: prNumber,
             });
-            console.log(pull_request.data.requested_reviewers);
             if (!(pull_request.data.requested_reviewers || []).find(e => e.name === reviewer)) {
                 return;
             }
-            const requestedReviwers = (_c = (_b = (yield client.rest.pulls.listRequestedReviewers({
+            const requestedReviwerTeams = (_c = (_b = (yield client.rest.pulls.listRequestedReviewers({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: prNumber,
             }))) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.teams;
-            console.log(requestedReviwers);
-            console.log(reviews.data);
-            console.log(login, commit);
+            if (!(requestedReviwerTeams || []).find(e => e.name === reviewer)) {
+                return;
+            }
             for (const review of reviews.data) {
                 if (((_d = review.user) === null || _d === void 0 ? void 0 : _d.login) == login &&
                     review.state == "APPROVED") {

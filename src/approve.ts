@@ -49,21 +49,20 @@ export async function approve(
       pull_number: prNumber,
     });
 
-    console.log(pull_request.data.requested_reviewers)
     if(!(pull_request.data.requested_reviewers || []).find(e => e.name === reviewer)) {
       return;
     }
 
-    const requestedReviwers = (await client.rest.pulls.listRequestedReviewers({
+    const requestedReviwerTeams = (await client.rest.pulls.listRequestedReviewers({
       owner: context.repo.owner,
       repo: context.repo.repo,
       pull_number: prNumber,
     }))?.data?.teams;
 
-    console.log(requestedReviwers);
+    if(!(requestedReviwerTeams || []).find(e => e.name === reviewer)) {
+      return;
+    }
 
-    console.log(reviews.data)
-    console.log(login, commit)
     for (const review of reviews.data) {
       if (
         review.user?.login == login &&
