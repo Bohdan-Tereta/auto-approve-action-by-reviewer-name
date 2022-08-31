@@ -2,7 +2,7 @@
 
 **Name:** `hmarr/auto-approve-action`
 
-Automatically approve GitHub pull requests.
+Automatically approve GitHub pull requests if requested reviewers has a name of the team passed in 'reviewer' parameter
 
 **Important:** use v2 or later, as v1 was designed for the initial GitHub Actions beta, and no longer works.
 
@@ -21,6 +21,8 @@ jobs:
       pull-requests: write
     steps:
       - uses: hmarr/auto-approve-action@v2
+      with:
+          reviewer: "Team1"
 ```
 
 Combine with an `if` clause to only auto-approve certain users. For example, to auto-approve [Dependabot][dependabot] pull requests, use:
