@@ -56,7 +56,7 @@ export async function approve(
     }))?.data?.teams;
 
     if(!(requestedReviwerTeams || []).find(e => e.name === reviewer)) {
-      `Reviewer ${reviewer}is not in the list`
+      `Reviewer ${reviewer}is not in the list of requested reviewer teams`
       return;
     }
 
